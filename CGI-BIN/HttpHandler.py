@@ -30,7 +30,7 @@ class Response(object):
         インスタンスの初期化メソッド
         ヘッダ用の辞書、本文用の文字列などを初期化する
         """
-        self.headers=('Content-type' :'text/html;charset=%s' %
+        self.headers=('Content-type' : 'text/html;charset=%s' %
                       charset)
         self.body=""
         self.status=200
