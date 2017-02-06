@@ -2,6 +2,7 @@
 import cgi
 import os
 from bsddb.test.test_all import charset
+from sqlite3 import Timestamp
 class Request(object):
 
     """
@@ -50,3 +51,19 @@ class Response(object):
         設定済みのレスポンス用ヘッダを返す
         """
         return self.headers.get(name, None)
+
+    def set_body(self, bodystr):
+        """
+        レスポンスとして出力する本文の文字列を返す
+        """
+        self.body=bodystr
+
+    def make_output(self, timestamp=None):
+        """
+        ヘッダと本文を含めたレスポンス文字列を作る
+        """
+
+        if timestamp is None:
+            timestamp=time.time()
+            year, month, day, hh, mm, ss, wd, y, z = time.gmtime(timestamp)
+            dtstr="%s, %02d"
