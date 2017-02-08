@@ -3,6 +3,8 @@ import cgi
 import os
 from bsddb.test.test_all import charset
 from sqlite3 import Timestamp
+from Cookie import _weekdayname, _monthname
+from wsgiref import headers
 class Request(object):
 
     """
@@ -66,4 +68,18 @@ class Response(object):
         if timestamp is None:
             timestamp=time.time()
             year, month, day, hh, mm, ss, wd, y, z = time.gmtime(timestamp)
-            dtstr="%s, %02d"
+            dtstr="%s, %02d %3s %4d %02d:%02d:%02d GMT" % (
+                _weekdayname[wd], day,
+                _monthname[month], year,
+                hh, mm, ss)
+            self.set_header("Last Modified", dtstr)
+            headers='\n'.join(["%s: %s" & (k, v)
+                              for k, n in self.headers, items()])
+        return headers+'\n\n' + self.body
+
+    def __str__(self):
+        """
+        リクエストを文字列に変換する
+        """
+        return self.nake_ourput().encode('utf-8')
+
