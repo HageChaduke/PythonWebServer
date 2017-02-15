@@ -5,6 +5,12 @@ from bsddb.test.test_all import charset
 from sqlite3 import Timestamp
 from Cookie import _weekdayname, _monthname
 from wsgiref import headers
+import time
+_weekdayname = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+_monthname = [None,
+              "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
 class Request(object):
 
     """
@@ -81,6 +87,21 @@ class Response(object):
         """
         リクエストを文字列に変換する
         """
-        return self.nake_ourput().encode('utf-8')
+        return self.make_ourput().encode('utf-8')
 
+    def get_htmltemplate():
+        """
+        レスポンスとして返すHTMLのうち、定型部分を返す
+        """
+        html_body = u"""
+        <html>
+            <head>
+                <meta http-equiv="content-type"
+                  content="text/html;charset=utf-8" />
+            </head>
+            <body>
+              %s
+            </body>
+        </html>"""
+        return html_body
 
