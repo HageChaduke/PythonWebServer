@@ -1,9 +1,8 @@
 #!/user/bin/env python # coding: utf-8
 from xml.etree.ElementTree import ElementTree
 from urllib import urlopen
-from operator import itemgetter
 
-def parse_res(url):
+def parse_rss(url):
     """
     RSS 2.0をパースして、辞書のリストを返す
     """
