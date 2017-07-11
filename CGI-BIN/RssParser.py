@@ -1,6 +1,6 @@
 #!/user/bin/env python # coding: utf-8
 from xml.etree.ElementTree import ElementTree
-from urllib import urlopen
+from urllib.request import urlopen
 
 def parse_rss(url):
     """

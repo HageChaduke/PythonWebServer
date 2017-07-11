@@ -1,10 +1,10 @@
 # 標準モジュールをimportする #
 import cgi
 import os
-from bsddb.test.test_all import charset
-from sqlite3 import Timestamp
-from Cookie import _weekdayname, _monthname
-from wsgiref import headers
+#from bsddb.test.test_all import charset
+#from sqlite3 import Timestamp
+#from Cookie import _weekdayname, _monthname
+#from wsgiref import headers
 import time
 _weekdayname = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 _monthname = [None,
@@ -44,7 +44,7 @@ class Response(object):
         self.body=""
         self.status=200
         self.status_message=''
-    def set_header(selfself, name, value):
+    def set_header(self, name, value):
         """
         レスポンスのヘッダを設定する
         """
@@ -54,7 +54,7 @@ class Response(object):
         レスポンスのヘッダを設定する
         """
         self.headers[name]=value
-    def get_header(selfself, name):
+    def get_header(self, name):
         """
         設定済みのレスポンス用ヘッダを返す
         """
@@ -78,16 +78,17 @@ class Response(object):
                 _weekdayname[wd], day,
                 _monthname[month], year,
                 hh, mm, ss)
-            self.set_header("Last Modified", dtstr)
-            headers='\n'.join(["%s: %s" & (k, v)
-                              for k, n in self.headers, items()])
+            self.set_header("Last-Modified", dtstr)
+            headers='\n'.join(["%s: %s" % (k, v)
+                              for k, v in self.headers.items()])
         return headers+'\n\n' + self.body
 
     def __str__(self):
         """
         リクエストを文字列に変換する
         """
-        return self.make_ourput().encode('utf-8')
+        return_str = self.make_output().encode('utf-8')
+        return return_str.decode('utf-8')
 
     def get_htmltemplate():
         """
