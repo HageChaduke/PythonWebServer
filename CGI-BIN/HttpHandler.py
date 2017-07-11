@@ -39,8 +39,8 @@ class Response(object):
         インスタンスの初期化メソッド
         ヘッダ用の辞書、本文用の文字列などを初期化する
         """
-        self.headers=('Content-type' : 'text/html;charset=%s' %
-                      charset)
+        self.headers={'Content-type' : 'text/html;charset=%s' %
+                      charset}
         self.body=""
         self.status=200
         self.status_message=''
@@ -48,12 +48,12 @@ class Response(object):
         """
         レスポンスのヘッダを設定する
         """
-        self.headers(name)=value
+        self.headers[name]=value
     def get_header(self, name, value):
         """
         レスポンスのヘッダを設定する
         """
-        self.headers(name)=value
+        self.headers[name]=value
     def get_header(selfself, name):
         """
         設定済みのレスポンス用ヘッダを返す
