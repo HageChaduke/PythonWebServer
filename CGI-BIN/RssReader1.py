@@ -11,7 +11,7 @@ form_body=u"""
  <input type="submit" />
 </form>"""
 rss_parts=u"""
-<h3><a href="%(link)s">%(title)s</a><h3>
+<h3><a href="%(link)s">%(title)s</a></h3>
 <p>%(description)s</p>
 """
 content=u"URLを入力してください"
