@@ -1,11 +1,11 @@
-#!/usr/bin.env python
+#!/usr/bin/env python3
 # conding: utf-8
 from RssParser import parse_rss
 from HttpHandler import Request, Response
 import cgitb; cgitb.enable()  # (1)
 
 form_body = u"""
-<form method="POST" action="/cgi-bin/RssReader1.py">
+<form method="POST" action="/cgi-bin/RssReader/RssReader1.py">
  RSSのURL:
  <input type="text" size="40" name="url" value="%s"/>
  <input type="submit" />
