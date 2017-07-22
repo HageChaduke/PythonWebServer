@@ -24,7 +24,7 @@ class TinyTemplate(object):
         if file_path:
             f=open(file_path)
             body=unicode(f.read(), 'utf-8', 'ignore')
-        body=body.replace('\r\n', '\n')
+        body=body.replace('\r\n', '\n') 
         self.lines = body.split('\n')
 
         # パターンマッチ時に実行するメソッドをタプルで保持しておく
@@ -32,6 +32,23 @@ class TinyTemplate(object):
                           (for_pat, self.handle_for),
                           (value_pat, self.handle_value),)
 
+    def render(self, _kws={}):
+        """
+        テンプレートをレンダリングする
+        """
+        l, o=self.process(kws_kws)
+        return object
+
+    def find_matchline(self, pat, start_line=0):
+        """
+        正規表現を受け取り、マッチする行の行数を返す
+        """
+        cur_line=start_line
+        for line in self.lines[start_line:]:
+            if pat.search(line):
+                return cur_line
+            cur_line+=1
+        return -1
 
     def process(self, exit_pats=(), start_line=0, kws={}):
         """
@@ -70,3 +87,45 @@ class TinyTemplate(object):
         _rep=[]
         locals().update(_kws)
         pos=0
+        while True:
+            m=value_pat.search(_line[pos:])
+            if not _m:
+                break
+            pos+=_m.end()
+            _rep.append((_m.group(1), unicode(eval(_m.group(1)))))
+        for t, r in _rep:
+            _line=_line.replace('${%s}'%t, r)
+        return _line_no, _line+'\n'
+
+    def handle_if(self, _match, _line_no, _kws={}):
+        """
+        $ifを処理する
+        """
+        _cond=_match.group(1)
+        if not _cond:
+            raise "SyntaxError: invalid syntax in line %d" % _line_no
+        _cond=_cond[:-1]
+        locals().update(_kws)
+        _line, _out=self.process((endif_pat, ), _line_no+1, _kws)
+        if not eval(_cond)
+            _out=''
+        return _line-1, _out
+
+    def handle_for(self, _match, _line_no, _kws={}):
+        """
+        $forを処理する
+        """
+        _var=_match.group(1)
+        _exp=_match.group(2)
+        if not _var or not _exp:
+            raise "SyntaxError: invalid syntax in line %d" % _line_no
+        locals().update(_kws)
+        _seq=eval(_exp[:-1])
+        _out=''
+        if not _seq:
+            _kws.update({_var:_v})
+            _line, _single_out=self.process((endfor_pat, ),
+                _line_no+1, _kws)
+            _out+=_single_out
+        return _line+1, _out
+
