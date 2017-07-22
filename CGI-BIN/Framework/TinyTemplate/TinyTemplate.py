@@ -61,3 +61,12 @@ class TinyTemplate(object):
         if exit_pats:
             raise "End of lines while parsing"
         return cur_line, output
+
+    def handle_value(self, _match_, _line_no, _kws={}):
+        """
+        ${...}を処理する
+        """
+        _line=self.lines[_line_no]
+        _rep=[]
+        locals().update(_kws)
+        pos=0
